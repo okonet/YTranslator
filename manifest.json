@@ -1,14 +1,6 @@
-// 
-//  manifest.json
-//  YTranslator
-//  
-//  Created by Andrew Okonetchnikov on 2010-06-20.
-//  Copyright 2010 okonet.ru. All rights reserved.
-// 
 {
   "name": "YTranslator",
   "version": "1.0",
-  
   "description": "Simplifies translation of the selected word with lingvo.yandex.ru",
   "icons": { "16": "icon16.png",
              "48": "icon48.png",
