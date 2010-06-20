@@ -4,7 +4,7 @@
   "description": "Simplifies translation of the selected word with lingvo.yandex.ru",
   "background_page": "background.html",
   "browser_action": {
-    "default_icon": "icon.png",
+    "default_icon": "icon16.png",
     "default_popup": "popup.html"
   },
   "content_scripts": [
@@ -21,5 +21,9 @@
     "tabs", 
     "http://*/*", 
     "https://*/*"
-  ]
+  ],
+  "icons": { "16": "icon16.png",
+             "48": "icon48.png",
+            "128": "icon128.png" 
+  }
 }
