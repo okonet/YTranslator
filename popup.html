@@ -1,4 +1,4 @@
-<!-- (c) Copyright 2010 Andrew Okonetchnikov. All Rights Reserved.  -->
+<!-- (c) Copyright 2010 Andrew Okonetchnikov (http://okonet.ru, andrej.okonetschnikow@gmail.com). All Rights Reserved.  -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,7 +9,6 @@
     }
   </style>
 <script type="text/javascript" charset="utf-8">
-// chrome.tabs.getSelected(null, function(tab) {
   var term = chrome.extension.getBackgroundPage().selection;  
   chrome.tabs.detectLanguage(null, function(language){
     if(typeof term == "string") {
@@ -20,7 +19,6 @@
       document.getElementById('content').innerHTML = "Please select a word to translate, then click the button again."
     }
   });
-// });
 </script>
 </head>
 <body>
