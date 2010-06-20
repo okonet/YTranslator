@@ -1,0 +1,25 @@
+{
+  "name": "YTranslator",
+  "version": "1.0",
+  "description": "Simplifies translation of the selected word with lingvo.yandex.ru",
+  "background_page": "background.html",
+  "browser_action": {
+    "default_icon": "icon.png",
+    "default_popup": "popup.html"
+  },
+  "content_scripts": [
+    {
+      "js": [
+      "ytranslator.js"
+      ], 
+      "matches": [
+      "http://*/*"
+      ]
+    }
+  ],
+  "permissions": [
+    "tabs", 
+    "http://*/*", 
+    "https://*/*"
+  ]
+}

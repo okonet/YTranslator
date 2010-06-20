@@ -1,0 +1,16 @@
+<!-- (c) Copyright 2010 Andrew Okonetchnikov. All Rights Reserved.  -->
+<!DOCTYPE html>
+<html lang="en">
+<head>  
+<script type="text/javascript" charset="utf-8">
+chrome.tabs.getSelected(null, function(tab) {
+  var term = chrome.extension.getBackgroundPage().selection;
+  chrome.tabs.detectLanguage(null, function(language){
+    chrome.tabs.create({
+      'url': 'http://lingvo.yandex.ru/' + language + '?st_translate=on&text=' + term
+    });
+  });
+});
+</script>
+</head>
+</html>
