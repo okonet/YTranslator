@@ -1,16 +1,29 @@
 <!-- (c) Copyright 2010 Andrew Okonetchnikov. All Rights Reserved.  -->
 <!DOCTYPE html>
 <html lang="en">
-<head>  
+<head>
+  <style type="text/css" media="screen">
+    html,body {
+      font: 13px "Helvetica Neue",Arial,sans-serif;
+      width: 200px;
+    }
+  </style>
 <script type="text/javascript" charset="utf-8">
-chrome.tabs.getSelected(null, function(tab) {
-  var term = chrome.extension.getBackgroundPage().selection;
+// chrome.tabs.getSelected(null, function(tab) {
+  var term = chrome.extension.getBackgroundPage().selection;  
   chrome.tabs.detectLanguage(null, function(language){
-    chrome.tabs.create({
-      'url': 'http://lingvo.yandex.ru/' + language + '?st_translate=on&text=' + term
-    });
+    if(typeof term == "string") {
+      chrome.tabs.create({
+        'url': 'http://lingvo.yandex.ru/' + language + '?st_translate=on&text=' + term
+      });
+    } else {
+      document.getElementById('content').innerHTML = "Please select a word to translate, then click the button again."
+    }
   });
-});
+// });
 </script>
 </head>
+<body>
+  <div id="content">Translating...</div>
+</body>
 </html>
