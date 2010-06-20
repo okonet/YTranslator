@@ -6,7 +6,6 @@
              "48": "icon48.png",
             "128": "icon128.png" 
   },
-  // "default_locale": "en",
   
   "background_page": "background.html",
   "browser_action": {
