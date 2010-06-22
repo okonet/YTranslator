@@ -5,23 +5,44 @@
   <style type="text/css" media="screen">
     html,body {
       font: 13px "Helvetica Neue",Arial,sans-serif;
-      width: 200px;
+      width: 220px;
     }
   </style>
-<script type="text/javascript" charset="utf-8">
-  var term = chrome.extension.getBackgroundPage().selection;  
-  chrome.tabs.detectLanguage(null, function(language){
-    if(typeof term == "string") {
-      chrome.tabs.create({
-        'url': 'http://lingvo.yandex.ru/' + language + '?st_translate=on&text=' + term
-      });
-    } else {
-      document.getElementById('content').innerHTML = "Please select a word to translate, then click the button again."
+  <script type="text/javascript" charset="utf-8">
+
+    function $(id) {
+      return document.getElementById(id);
     }
-  });
-</script>
+
+    // Opens tab with slovari.yandex.ru translation for a given term within the given language
+    function openTabWithTranslation(term, lang) {
+      var lang = lang || 'en'; // Use english as a dafaul language
+      chrome.tabs.create({
+        'url': 'http://lingvo.yandex.ru/' + lang + '?st_translate=on&text=' + term
+      });
+    }
+  
+    function initPopup() {
+      // Determine language of the active tab
+      chrome.tabs.detectLanguage(null, function(lang){
+        // Get term from extension background page
+        var term = chrome.extension.getBackgroundPage().selection;
+      
+        if(typeof term == "string" && term.length > 0) {
+          $('content').innerHTML = "";
+          openTabWithTranslation(term, lang);
+        } else {
+          $('text').focus();
+        }
+      });
+    }
+  </script>
 </head>
-<body>
-  <div id="content">Translating...</div>
+<body onload="initPopup();">
+  <form action="http://lingvo.yandex.ru/en/" id="content" onsubmit="openTabWithTranslation($('text').value); return false;">
+    <label for="text">Enter a word:</label><br>
+    <input type="input" name="text" value="" id="text" placeholder="Enter the word to translate">
+    <input type="submit" id="submit" value="Translate!">
+  </form>
 </body>
 </html>
