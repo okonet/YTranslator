@@ -16,7 +16,7 @@
 
     // Opens tab with slovari.yandex.ru translation for a given term within the given language
     function openTabWithTranslation(term, lang) {
-      var lang = lang || 'en'; // Use english as a dafaul language
+      var lang = lang || 'en'; // Use english as a dafault language
       chrome.tabs.create({
         'url': 'http://lingvo.yandex.ru/' + lang + '?st_translate=on&text=' + term
       });
