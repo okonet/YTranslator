@@ -1,6 +1,6 @@
 <!-- (c) Copyright 2010 Andrew Okonetchnikov (http://okonet.ru, andrej.okonetschnikow@gmail.com). All Rights Reserved.  -->
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
   <style type="text/css" media="screen">
     html,body {
@@ -8,42 +8,71 @@
       width: 220px;
     }
   </style>
-  <script type="text/javascript" charset="utf-8">
-
+  <script type="text/javascript">
     function $(id) {
       return document.getElementById(id);
     }
+    
+    var YTranslator = {
+      
+      languages: {
+        'undefined': 'перевод',
+        'en': 'с%20английского',
+        'de': 'с%20немецкого',
+        'fr': 'с%20французского',
+        'it': 'с%20итальянского',
+        'es': 'с%20испанского',
+        'la': 'с%20латинского'
+      },
+      
+      initialize: function() {
+        var self = this;
+        // Determine language of the active tab
+        chrome.tabs.detectLanguage(null, function(lang){
+          // Get term from extension background page
+          var term = self.getSelectedTerm();
 
-    // Opens tab with slovari.yandex.ru translation for a given term within the given language
-    function openTabWithTranslation(term, lang) {
-      var lang = lang || 'en'; // Use english as a dafault language
+          if(typeof term == "string" && term.length > 0) {
+            $('content').innerHTML = "";
+            self.openTabWithTranslation(term, lang);
+          } else {
+            $('text').focus();
+          }
+        });
+      },
       
-      // Yandex doesn't have a page for russian, so we'll replace it with english
-      if(lang.indexOf('ru') >= 0) lang = 'en';
+      getSelectedTerm: function(){
+        return chrome.extension.getBackgroundPage().selection;
+      },
       
-      chrome.tabs.create({
-        'url': 'http://lingvo.yandex.ru/' + lang + '?st_translate=on&text=' + term
-      });
-    }
-  
-    function initPopup() {
-      // Determine language of the active tab
-      chrome.tabs.detectLanguage(null, function(lang){
-        // Get term from extension background page
-        var term = chrome.extension.getBackgroundPage().selection;
+      // Opens tab with slovari.yandex.ru translation for a given term within the given language
+      openTabWithTranslation: function(term, lang) {
+        var lang = lang || 'en'; // Use english as a dafault language
+        
+        // For non-supported by Yandex languages we'll fallback to English
+        if(this.getObjectKeys(this.languages).indexOf(lang) < 0) 
+          lang = 'undefined';
+          
+        // var url = 'http://lingvo.yandex.ru/' + term + '/' + this.languages[lang];
+        var url = 'http://lingvo.yandex.ru/' + term + '/перевод';
+
+        chrome.tabs.create({
+          'url': url
+        });
+      },
       
-        if(typeof term == "string" && term.length > 0) {
-          $('content').innerHTML = "";
-          openTabWithTranslation(term, lang);
-        } else {
-          $('text').focus();
+      getObjectKeys: function(){
+        var keys = [];
+        for(key in this.languages) {
+          keys.push(key);
         }
-      });
+        return keys;
+      }
     }
   </script>
 </head>
-<body onload="initPopup();">
-  <form action="http://lingvo.yandex.ru/en/" id="content" onsubmit="openTabWithTranslation($('text').value); return false;">
+<body onload="YTranslator.initialize();">
+  <form action="http://lingvo.yandex.ru/en/" id="content" onsubmit="YTranslator.openTabWithTranslation($('text').value); return false;">
     <label for="text">Enter a word:</label><br>
     <input type="input" name="text" value="" id="text" placeholder="Enter the word to translate">
     <input type="submit" id="submit" value="Translate!">
