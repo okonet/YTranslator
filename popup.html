@@ -2,6 +2,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   <style type="text/css" media="screen">
     html,body {
       font: 13px "Helvetica Neue",Arial,sans-serif;
@@ -52,15 +53,7 @@
         // For non-supported by Yandex languages we'll fallback to English
         if(this.getObjectKeys(this.languages).indexOf(lang) < 0) lang = 'en';
           
-        // var url = 'http://lingvo.yandex.ru/' + term + '/' + this.languages[lang];
-        
-        // Use mobile version due to URL schema (cyrillic characters problem) changes at Yandex
-        // Sample URL from Yandex: http://m.slovari.yandex.ru/search.xml?lang=de-ru-de&text=%D0%BF%D1%80%D0%B8%D0%B2%D1%8B%D1%87%D0%BA%D0%B0
-        var url = 'http://m.slovari.yandex.ru/search.xml?lang=' + lang + '-ru-' + lang + '&text=' + term + '&where=3';
-
-        chrome.tabs.create({
-          'url': url
-        });
+        chrome.tabs.create({ 'url': 'http://lingvo.yandex.ru/' + term + '/' + this.languages[lang] });
       },
       
       getObjectKeys: function(){
